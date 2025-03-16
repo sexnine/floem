@@ -15,7 +15,7 @@ use winit::{
     event_loop::{ActiveEventLoop, ControlFlow},
     window::WindowId,
 };
-
+use winit::platform::windows::WindowAttributesExtWindows;
 use crate::{
     action::{Timer, TimerToken},
     app::{AppEventCallback, AppUpdateEvent, UserEvent, APP_UPDATE_EVENTS},
@@ -295,6 +295,7 @@ impl ApplicationHandle {
             mac_os_config,
             web_config,
             font_embolden,
+            corner_preference,
         }: WindowConfig,
     ) {
         let logical_size = size.map(|size| LogicalSize::new(size.width, size.height));
@@ -348,6 +349,9 @@ impl ApplicationHandle {
         }
         if let Some(logical_max_size) = logical_max_size {
             window_attributes = window_attributes.with_max_surface_size(logical_max_size);
+        }
+        if let Some(corner_preference) = corner_preference {
+            window_attributes = window_attributes.with_corner_preference(corner_preference);
         }
 
         #[cfg(not(target_os = "macos"))]

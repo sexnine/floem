@@ -1,4 +1,5 @@
 use peniko::kurbo::{Point, Size};
+use winit::platform::windows::CornerPreference;
 #[cfg(windows)]
 pub use winit::platform::windows::IconExtWindows;
 pub use winit::window::Fullscreen;
@@ -37,6 +38,7 @@ pub struct WindowConfig {
     pub(crate) window_level: WindowLevel,
     pub(crate) apply_default_theme: bool,
     pub(crate) font_embolden: f32,
+    pub(crate) corner_preference: Option<CornerPreference>,
     #[allow(dead_code)]
     pub(crate) mac_os_config: Option<MacOSWindowConfig>,
     pub(crate) web_config: Option<WebWindowConfig>,
@@ -61,6 +63,7 @@ impl Default for WindowConfig {
             window_level: WindowLevel::Normal,
             apply_default_theme: true,
             font_embolden: if cfg!(target_os = "macos") { 0.2 } else { 0. },
+            corner_preference: None,
             mac_os_config: None,
             web_config: None,
         }
@@ -207,6 +210,15 @@ impl WindowConfig {
     #[inline]
     pub fn font_embolden(mut self, font_embolden: f32) -> Self {
         self.font_embolden = font_embolden;
+        self
+    }
+
+    /// Sets the corner preference.
+    ///
+    /// The default is `None`.  This only affects Windows.
+    #[inline]
+    pub fn corner_preference(mut self, corner_preference: CornerPreference) -> Self {
+        self.corner_preference = Some(corner_preference);
         self
     }
 
