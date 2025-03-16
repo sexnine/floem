@@ -1,5 +1,5 @@
 use peniko::kurbo::{Point, Size};
-use winit::platform::windows::CornerPreference;
+pub use winit::platform::windows::CornerPreference;
 #[cfg(windows)]
 pub use winit::platform::windows::IconExtWindows;
 pub use winit::window::Fullscreen;
